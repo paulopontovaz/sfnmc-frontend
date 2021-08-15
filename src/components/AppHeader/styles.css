@@ -1,0 +1,25 @@
+.app {
+	display: flex;
+	flex-direction: column;
+	width: 80vw;
+}
+
+/* 576px for portrait phones.
+    768px for tablets.
+    992px for laptops.
+    1200px for large devices. */
+
+@media screen and (min-width: 576px) and (max-width: 1199px) {
+	.app {
+		width: 100vw;
+	}
+}
+
+@media screen and (min-width: 768px) and (max-width: 1199px) {
+}
+
+@media screen and (min-width: 992px) and (max-width: 1199px) {
+}
+
+@media screen and (min-width: 1200px) {
+}
