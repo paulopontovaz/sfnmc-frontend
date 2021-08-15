@@ -1,21 +1,27 @@
-.app {
+.app-header {
 	display: flex;
-	flex-direction: column;
-	width: 80vw;
+	flex-direction: row;
+	align-items: center;
+	width: 100%;
+	margin: 1rem 0;
 }
 
-/* 576px for portrait phones.
-    768px for tablets.
-    992px for laptops.
-    1200px for large devices. */
-
-@media screen and (min-width: 576px) and (max-width: 1199px) {
-	.app {
-		width: 100vw;
-	}
+.app-header-logo {
+	width: 70px;
 }
 
-@media screen and (min-width: 768px) and (max-width: 1199px) {
+.app-header-app-name {
+	font-size: 1.2rem;
+	margin-left: 1rem;
+}
+
+@media screen and (max-width: 576px) {
+}
+
+@media screen and (min-width: 576px) and (max-width: 768px) {
+}
+
+@media screen and (min-width: 768px) and (max-width: 992px) {
 }
 
 @media screen and (min-width: 992px) and (max-width: 1199px) {
