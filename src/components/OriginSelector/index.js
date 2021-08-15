@@ -1,24 +1,34 @@
 import { useForm } from "react-hook-form";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSearchLocation } from "@fortawesome/free-solid-svg-icons";
+import "./styles.css";
 
 const OriginSelector = () => {
 	const {
 		register,
 		handleSubmit,
-		watch,
 		formState: { errors },
 	} = useForm();
 
-	const onSubmit = console.log;
-
-	console.log(watch("example")); // watch input value by passing the name of it
+	const onSubmit = (data) => {
+		console.log(data);
+	};
 
 	return (
-		<div className="w-full flex flex-row justify-center">
-			<form onSubmit={handleSubmit(onSubmit)}>
-				<div>
-					<label className="mb-4">Saindo de</label>
+		<div className="origin-selector">
+			<form
+				onSubmit={handleSubmit(onSubmit)}
+				className="origin-selector-form"
+			>
+				<div className="origin-selector-input-container">
+					<label
+						className="origin-selector-label"
+						htmlFor="origin-name"
+					>
+						Saindo de
+					</label>
 					<input
-						className="focus:ring-4 ring-orange rounded-full p-2 outline-none"
+						className="origin-selector-input"
 						placeholder="Nome da sua cidade"
 						list="origin-list"
 						{...register("origin-name", { required: true })}
@@ -31,10 +41,19 @@ const OriginSelector = () => {
 							"Strawberry",
 							"Vanilla",
 						].map((item) => (
-							<option key={item}></option>
+							<option key={item}>{item}</option>
 						))}
 					</datalist>
-					{errors.exampleRequired && <span>Campo obrigatório</span>}
+					{errors.exampleRequired && (
+						<span className="origin-selector-error">
+							Campo obrigatório
+						</span>
+					)}
+				</div>
+				<div className="origin-selector-button-container">
+					<button type="submit" className="origin-selector-button">
+						<FontAwesomeIcon icon={faSearchLocation} size="2x" />
+					</button>
 				</div>
 			</form>
 		</div>
