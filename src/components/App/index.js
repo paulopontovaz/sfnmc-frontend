@@ -21,8 +21,6 @@ const App = () => {
     };
 
     connection.onmessage = ({ data }) => {
-      let tempDestinations = [];
-
       // converte o buffer que vem da fila em uma string
       const converter = new TextDecoder("utf-8");
       const convertedData = converter.decode(data);
@@ -30,24 +28,7 @@ const App = () => {
       // converte a string em um objeto
       const data2obj = JSON.parse(convertedData);
 
-      destinations.forEach((destination) => {
-        tempDestinations.push(destination);
-      });
-
-      const index = tempDestinations.findIndex((element) => {
-        return element.countryCode === data2obj.countryCode;
-      });
-
-      console.log("index", index);
-
-      if (index === -1) {
-        tempDestinations.push(data2obj);
-      } else {
-        tempDestinations[index] = data2obj;
-      }
-
-      setDestinations(tempDestinations);
-      console.log("at finish", destinations);
+      setDestinations(data2obj);
     };
   }, [destinations]);
 
