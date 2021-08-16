@@ -1,4 +1,4 @@
-import axios from "axios";
+import { getWebSocketConnection } from "../utils";
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
@@ -32,21 +32,22 @@ export const submitSearch =
 		dispatch(setIsLoading(true));
 
 		const iata_from = selectedOrigin?.split("-")[0]?.trim();
-		axios.post("http://localhost:3333/", { iata_from }).catch((error) => {
-			dispatch(setIsLoading(false));
-			console.error("submitSearch error", error);
-		});
-
-		const connection = new WebSocket("ws://localhost:5000");
-		connection.binaryType = "arraybuffer";
+		const connection = getWebSocketConnection();
+		connection.send(iata_from);
 
 		connection.onopen = () => {
-			console.log("Connected with server");
+			console.log("connection.onopen");
 			connection.send("Hi, I am connected to you now hihi");
 		};
 
+		connection.onerror = (error) => {
+			console.log("connection.onerror", error);
+			dispatch(setIsLoading(false));
+		};
+
 		connection.onclose = () => {
-			console.log("Connection ended.");
+			console.log("connection.onclose");
+			dispatch(setIsLoading(false));
 		};
 
 		connection.onmessage = ({ data }) => {
