@@ -13,7 +13,7 @@ export const flightRecommendationSlice = createSlice({
 			state.selectedOrigin = action.payload;
 		},
 		setRecommendedFlights: (state, action) => {
-			state.selectedOrigin = action.payload;
+			state.recommendedFlights = action.payload;
 		},
 	},
 });

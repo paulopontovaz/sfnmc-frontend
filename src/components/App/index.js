@@ -1,4 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setRecommendedFlights } from "../../store/flightRecommendationSlice";
 import AppHeader from "../AppHeader";
 import OriginSelector from "../OriginSelector";
 import RecommendedFlightList from "../RecommendedFlightList";
@@ -8,37 +10,38 @@ const connection = new WebSocket("ws://localhost:5000");
 connection.binaryType = "arraybuffer";
 
 const App = () => {
-  const [destinations, setDestinations] = useState([]);
+	const dispatch = useDispatch();
+	const recommendedFlights = useSelector((state) => state.recommendedFlights);
 
-  useEffect(() => {
-    connection.onopen = () => {
-      console.log("Connected with server");
-      connection.send("Hi, I am connected to you now hihi");
-    };
+	useEffect(() => {
+		connection.onopen = () => {
+			console.log("Connected with server");
+			connection.send("Hi, I am connected to you now hihi");
+		};
 
-    connection.onclose = () => {
-      console.log("Connection ended.");
-    };
+		connection.onclose = () => {
+			console.log("Connection ended.");
+		};
 
-    connection.onmessage = ({ data }) => {
-      // converte o buffer que vem da fila em uma string
-      const converter = new TextDecoder("utf-8");
-      const convertedData = converter.decode(data);
+		connection.onmessage = ({ data }) => {
+			// converte o buffer que vem da fila em uma string
+			const converter = new TextDecoder("utf-8");
+			const convertedData = converter.decode(data);
 
-      // converte a string em um objeto
-      const data2obj = JSON.parse(convertedData);
+			// converte a string em um objeto
+			const data2obj = JSON.parse(convertedData);
 
-      setDestinations(data2obj);
-    };
-  }, [destinations]);
+			dispatch(setRecommendedFlights(data2obj));
+		};
+	}, [dispatch]);
 
-  return (
-    <div className="app">
-      <AppHeader />
-      <OriginSelector />
-      <RecommendedFlightList destinationsArray={destinations} />
-    </div>
-  );
+	return (
+		<div className="app">
+			<AppHeader />
+			<OriginSelector />
+			<RecommendedFlightList destinations={recommendedFlights} />
+		</div>
+	);
 };
 
 export default App;

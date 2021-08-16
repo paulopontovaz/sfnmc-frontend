@@ -1,11 +1,14 @@
 import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearchLocation } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
+import { selectOrigin } from "../../store/flightRecommendationSlice";
 import autocompleteOptions from "../../assets/staticData/airports.json";
 import "./styles.css";
 
 const OriginSelector = () => {
+	const dispatch = useDispatch();
 	const {
 		register,
 		handleSubmit,
@@ -17,6 +20,10 @@ const OriginSelector = () => {
 			iata_from: data.origin_name,
 		});
 		console.log(response);
+	};
+
+	const onChangeOrigin = (event) => {
+		dispatch(selectOrigin(event.target.value));
 	};
 
 	return (
@@ -37,6 +44,7 @@ const OriginSelector = () => {
 						placeholder="Nome da sua cidade"
 						list="origin-list"
 						{...register("origin_name", { required: true })}
+						onChange={onChangeOrigin}
 					/>
 					<datalist id="origin-list">
 						{autocompleteOptions.map((item) => (
