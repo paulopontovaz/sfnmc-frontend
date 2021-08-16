@@ -32,7 +32,7 @@
 }
 
 input.origin-selector-input::-webkit-calendar-picker-indicator {
-	opacity: 0;
+	opacity: 1;
 }
 
 .origin-selector-button-container {
