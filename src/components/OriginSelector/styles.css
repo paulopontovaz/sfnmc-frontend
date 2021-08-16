@@ -23,7 +23,7 @@
 }
 
 .origin-selector-input {
-	padding: 0.5rem 1rem;
+	padding: 1rem;
 	border-radius: 50px;
 	border: none;
 	font-size: 1rem;
@@ -45,7 +45,7 @@ input.origin-selector-input::-webkit-calendar-picker-indicator {
 	border: none;
 	outline: none;
 	margin-left: 0.5rem;
-	margin-bottom: 0.3rem;
+	margin-bottom: 0.7rem;
 	color: #d66853;
 	height: fit-content;
 	align-self: flex-end;
