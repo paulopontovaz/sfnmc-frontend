@@ -1,9 +1,9 @@
 import { useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearchLocation } from "@fortawesome/free-solid-svg-icons";
-import axios from "axios";
-import { selectOrigin } from "../../store/flightRecommendationSlice";
+
+import { submitSearch } from "../../store/flightRecommendationSlice";
 import autocompleteOptions from "../../assets/staticData/airports.json";
 import "./styles.css";
 
@@ -15,16 +15,7 @@ const OriginSelector = () => {
 		formState: { errors },
 	} = useForm();
 
-	const onSubmit = async (data) => {
-		const response = await axios.post("http://localhost:3333/", {
-			iata_from: data.origin_name,
-		});
-		console.log(response);
-	};
-
-	const onChangeOrigin = (event) => {
-		dispatch(selectOrigin(event.target.value));
-	};
+	const onSubmit = async (data) => dispatch(submitSearch(data.origin_name));
 
 	return (
 		<div className="origin-selector">
@@ -44,7 +35,6 @@ const OriginSelector = () => {
 						placeholder="Nome da sua cidade"
 						list="origin-list"
 						{...register("origin_name", { required: true })}
-						onChange={onChangeOrigin}
 					/>
 					<datalist id="origin-list">
 						{autocompleteOptions.map((item) => (
