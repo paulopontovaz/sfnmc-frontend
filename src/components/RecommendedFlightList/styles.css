@@ -69,18 +69,10 @@
 	padding: 0.2rem;
 }
 
-.recommended-flight-list-table th,
-.recommended-flight-list-table td {
+.recommended-flight-list-table th {
 	font-weight: bold;
 	flex: 1;
 	text-align: center;
-}
-
-.recommended-flight-list-table td.green {
-	color: green;
-}
-.recommended-flight-list-table td.red {
-	color: red;
 }
 
 .recommended-flight-list-footer {
