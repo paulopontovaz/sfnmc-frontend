@@ -54,7 +54,9 @@ export const submitSearch =
 				break;
 			case WebSocket.CLOSED:
 				connection = getWebSocketConnection(true);
-				dispatch(submitSearch(selectedOrigin));
+				console.log(
+					"WebSocket.CLOSED -> Connection reopened. Try again."
+				);
 				break;
 			case WebSocket.CONNECTING:
 				console.log("WebSocket.CONNECTING");
