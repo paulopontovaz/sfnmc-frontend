@@ -55,12 +55,15 @@ export const submitSearch =
 
 					dispatch(setRecommendedFlights(data2obj));
 					dispatch(setIsLoading(false));
-					dispatch(
-						setMessage({
-							body: "[WebSocket onMessage]: Nenhum resultado foi encontrado para essa busca.",
-							type: MessageType.INFO,
-						})
-					);
+
+					if (data2obj?.length) {
+						dispatch(
+							setMessage({
+								body: "[WebSocket onMessage]: Nenhum resultado foi encontrado para essa busca.",
+								type: MessageType.INFO,
+							})
+						);
+					}
 				};
 				break;
 			case WebSocket.CLOSED:
