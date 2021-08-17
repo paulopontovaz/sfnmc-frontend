@@ -12,13 +12,13 @@ export const flightRecommendationSlice = createSlice({
 	initialState,
 	reducers: {
 		setIsLoading: (state, action) => {
-			state.isLoading = action.payload;
+			state.isLoading = Boolean(action.payload);
 		},
 		selectOrigin: (state, action) => {
 			state.selectedOrigin = action.payload;
 		},
 		setRecommendedFlights: (state, action) => {
-			state.recommendedFlights = action.payload;
+			state.recommendedFlights = action.payload || [];
 		},
 	},
 });
@@ -29,11 +29,42 @@ export const { selectOrigin, setRecommendedFlights, setIsLoading } =
 export const submitSearch =
 	(selectedOrigin = "") =>
 	(dispatch) => {
+		dispatch(setRecommendedFlights([]));
 		dispatch(setIsLoading(true));
 
 		const iata_from = selectedOrigin?.split("-")[0]?.trim();
-		const connection = getWebSocketConnection();
-		connection.send(iata_from);
+		let connection = getWebSocketConnection();
+
+		switch (connection.readyState) {
+			case WebSocket.OPEN:
+				connection.send(iata_from);
+				connection.onmessage = ({ data }) => {
+					// converte o buffer que vem da fila em uma string
+					const converter = new TextDecoder("utf-8");
+					const convertedData = converter.decode(data);
+
+					// converte a string em um objeto
+					const data2obj = JSON.parse(convertedData);
+
+					console.log("Search Results:", data2obj);
+
+					dispatch(setRecommendedFlights(data2obj));
+					dispatch(setIsLoading(false));
+				};
+				break;
+			case WebSocket.CLOSED:
+				connection = getWebSocketConnection(true);
+				dispatch(submitSearch(selectedOrigin));
+				break;
+			case WebSocket.CONNECTING:
+				console.log("WebSocket.CONNECTING");
+				break;
+			case WebSocket.CLOSING:
+				console.log("WebSocket.CLOSING");
+				break;
+			default:
+				break;
+		}
 
 		connection.onopen = () => {
 			console.log("connection.onopen");
@@ -47,18 +78,6 @@ export const submitSearch =
 
 		connection.onclose = () => {
 			console.log("connection.onclose");
-			dispatch(setIsLoading(false));
-		};
-
-		connection.onmessage = ({ data }) => {
-			// converte o buffer que vem da fila em uma string
-			const converter = new TextDecoder("utf-8");
-			const convertedData = converter.decode(data);
-
-			// converte a string em um objeto
-			const data2obj = JSON.parse(convertedData);
-
-			dispatch(setRecommendedFlights(data2obj));
 			dispatch(setIsLoading(false));
 		};
 	};
