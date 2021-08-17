@@ -1,40 +1,58 @@
 import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSearchLocation } from "@fortawesome/free-solid-svg-icons";
+
+import { submitSearch } from "../../store/flightRecommendationSlice";
+import autocompleteOptions from "../../assets/staticData/airports.json";
+import "./styles.css";
 
 const OriginSelector = () => {
+	const dispatch = useDispatch();
 	const {
 		register,
 		handleSubmit,
-		watch,
 		formState: { errors },
 	} = useForm();
 
-	const onSubmit = console.log;
-
-	console.log(watch("example")); // watch input value by passing the name of it
+	const onSubmit = async (data) => dispatch(submitSearch(data.origin_name));
 
 	return (
-		<div className="w-full flex flex-row justify-center">
-			<form onSubmit={handleSubmit(onSubmit)}>
-				<div>
-					<label className="mb-4">Saindo de</label>
+		<div className="origin-selector">
+			<form
+				onSubmit={handleSubmit(onSubmit)}
+				className="origin-selector-form"
+			>
+				<div className="origin-selector-input-container">
+					<label
+						className="origin-selector-label"
+						htmlFor="origin_name"
+					>
+						Saindo de
+					</label>
 					<input
-						className="focus:ring-4 ring-orange rounded-full p-2 outline-none"
+						className="origin-selector-input"
 						placeholder="Nome da sua cidade"
 						list="origin-list"
-						{...register("origin-name", { required: true })}
+						{...register("origin_name", { required: true })}
 					/>
 					<datalist id="origin-list">
-						{[
-							"Chocolate",
-							"Coconut",
-							"Mint",
-							"Strawberry",
-							"Vanilla",
-						].map((item) => (
-							<option key={item}></option>
+						{autocompleteOptions.map((item) => (
+							<option
+								key={`${item.iata}-${item.country}`}
+							>{`${item.iata} - ${item.place}, ${item.airportName}, ${item.country}`}</option>
 						))}
 					</datalist>
-					{errors.exampleRequired && <span>Campo obrigatório</span>}
+					{errors.exampleRequired && (
+						<span className="origin-selector-error">
+							Campo obrigatório
+						</span>
+					)}
+				</div>
+				<div className="origin-selector-button-container">
+					<button type="submit" className="origin-selector-button">
+						<FontAwesomeIcon icon={faSearchLocation} size="2x" />
+					</button>
 				</div>
 			</form>
 		</div>
