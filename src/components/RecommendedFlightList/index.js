@@ -13,6 +13,7 @@ const RecommendedFlights = ({ destinations = [] }) => {
 	const isLoading = useSelector(
 		(state) => state.flightRecommendation.isLoading
 	);
+	const message = useSelector((state) => state.flightRecommendation.message);
 	return (
 		<div className="recommended-flight-list">
 			<div className="recommended-flight-list-table-container">
@@ -39,6 +40,13 @@ const RecommendedFlights = ({ destinations = [] }) => {
 						size={250}
 						css={loaderCss}
 					/>
+					{message && (
+						<div className={"recommended-flight-list-message"}>
+							<span className={message?.type || ""}>
+								{message.body}
+							</span>
+						</div>
+					)}
 					{destinations.length > 0 && (
 						<tbody>
 							{destinations.map((destination) => (
