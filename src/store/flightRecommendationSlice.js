@@ -34,6 +34,7 @@ export const { selectOrigin, setRecommendedFlights, setIsLoading, setMessage } =
 export const submitSearch =
 	(selectedOrigin = "") =>
 	(dispatch) => {
+		dispatch(setMessage());
 		dispatch(setRecommendedFlights([]));
 		dispatch(setIsLoading(true));
 
