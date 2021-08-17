@@ -70,7 +70,6 @@ export const submitSearch =
 
 		connection.onopen = () => {
 			console.log("connection.onopen");
-			connection.send("Hi, I am connected to you now hihi");
 		};
 
 		connection.onerror = (error) => {
