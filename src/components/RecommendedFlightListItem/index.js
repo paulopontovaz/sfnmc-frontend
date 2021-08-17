@@ -3,32 +3,32 @@ import "./styles.css";
 const RecommendedFlightListItem = ({
 	destination: {
 		countryCode,
-		country_name,
+		countryName,
 		cases,
-		contamination_rate,
+		contaminationRate,
 		price,
 		currency,
 		flag_link,
 	},
 }) => (
 	<tr key={countryCode} className="recommended-flight-list-item">
-		<td>
+		<td className="recommended-flight-list-item-country">
 			<img src={flag_link} alt={`${countryCode} flag`} />
-			<p>{country_name}</p>
+			<p>{countryName}</p>
 		</td>
 		<td>{cases}</td>
 		<td
 			className={
-				contamination_rate > 0
-					? "green"
-					: contamination_rate < 0
+				contaminationRate > 0
 					? "red"
+					: contaminationRate < 0
+					? "green"
 					: ""
 			}
 		>
-			{contamination_rate > 0
-				? `+${contamination_rate}`
-				: contamination_rate}
+			{contaminationRate > 0
+				? `+${contaminationRate}%`
+				: `${contaminationRate}%`}
 		</td>
 		<td>{`${price} ${currency.toUpperCase()}`}</td>
 	</tr>

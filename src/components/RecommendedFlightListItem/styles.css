@@ -21,3 +21,12 @@
 .recommended-flight-list-item td.red {
 	color: #e76f51;
 }
+
+.recommended-flight-list-item-country {
+	display: flex;
+	align-items: center;
+}
+
+.recommended-flight-list-item-country p {
+	margin-left: 1rem;
+}

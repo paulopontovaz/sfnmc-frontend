@@ -31,7 +31,6 @@
 
 .recommended-flight-list-table tbody {
 	flex-direction: column;
-	overflow-y: scroll;
 }
 
 .recommended-flight-list-table thead tr,
@@ -46,7 +45,7 @@
 	border-top-left-radius: 25px;
 	border-top-right-radius: 25px;
 	background-color: #d66853;
-	padding: 0 2rem 0.5rem 1rem;
+	padding: 0 1rem 0.5rem 1rem;
 }
 
 .recommended-flight-list-table tbody tr {
