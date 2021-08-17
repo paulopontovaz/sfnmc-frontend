@@ -5,7 +5,9 @@ import RecommendedFlightList from "../RecommendedFlightList";
 import "./styles.css";
 
 const App = () => {
-	const recommendedFlights = useSelector((state) => state.recommendedFlights);
+	const recommendedFlights = useSelector(
+		(state) => state.flightRecommendation.recommendedFlights
+	);
 
 	return (
 		<div className="app">
