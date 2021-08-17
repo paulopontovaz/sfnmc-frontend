@@ -57,7 +57,9 @@ export const submitSearch =
 					dispatch(setRecommendedFlights(data2obj));
 					dispatch(setIsLoading(false));
 
-					if (data2obj?.length) {
+					debugger;
+
+					if (!data2obj?.length) {
 						dispatch(
 							setMessage({
 								body: "[WebSocket onMessage]: Nenhum resultado foi encontrado para essa busca.",
